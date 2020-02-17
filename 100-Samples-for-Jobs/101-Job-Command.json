@@ -3,9 +3,11 @@
     "Type": "SimpleFolder",
     "ControlmServer": "lnx-srv-rhl-01.vlab.",
     "OrderMethod": "Manual",
+    
     "Job-Command": {
       "Type": "Job:Command",
       "SubApplication": "Deployment",
+      "Confirm": true,
       "Host": "lnx-srv-rhl-01.vlab.box",
       "CreatedBy": "emuser",
       "Description": "Run simple command.",
