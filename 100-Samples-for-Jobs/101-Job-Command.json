@@ -1,0 +1,30 @@
+{
+  "101-Job-Command": {
+    "Type": "SimpleFolder",
+    "ControlmServer": "lnx-srv-rhl-01.vlab.",
+    "OrderMethod": "Manual",
+    "Job-Command": {
+      "Type": "Job:Command",
+      "SubApplication": "Deployment",
+      "Host": "lnx-srv-rhl-01.vlab.box",
+      "CreatedBy": "emuser",
+      "Description": "Run simple command.",
+      "RunAs": "csuite",
+      "Application": "Automation-API",
+      "Command": "sleep 30",
+      "When": {
+        "WeekDays": [
+          "NONE"
+        ],
+        "Months": [
+          "NONE"
+        ],
+        "MonthDays": [
+          "NONE"
+        ],
+        "SpecificDates": [],
+        "DaysRelation": "OR"
+      }
+    }
+  }
+}
