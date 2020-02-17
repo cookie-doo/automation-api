@@ -1,2 +1,2 @@
 # automation-api
-Demonstration proposal for Control-M Automation-API.
+That treats application automation management in the [Software Development Life Cycle]
