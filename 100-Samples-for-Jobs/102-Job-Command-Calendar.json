@@ -14,16 +14,20 @@
       "Command": "sleep 30",
       "When": {
         "WeekDays": [
-          "NONE"
-        ],
-        "Months": [
-          "NONE"
+          "MON",
+          "TUE",
+          "WED",
+          "THU"
         ],
         "MonthDays": [
-          "NONE"
+          "L3"
         ],
         "SpecificDates": [],
-        "DaysRelation": "OR"
+        "FromTime": "2200"
+      },
+      "CTRL-SLOT": {
+        "Type": "Resource:Semaphore",
+        "Quantity": "1"
       }
     }
   }

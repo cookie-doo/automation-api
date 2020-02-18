@@ -1,1 +1,0 @@
-ctm deploy jobs::get JSON -s """ctm=lnx-srv-rhl-01.vlab.&folder=101-Job-Command"""
