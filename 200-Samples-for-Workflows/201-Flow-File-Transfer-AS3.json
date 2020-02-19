@@ -1,0 +1,410 @@
+{
+  "201-Flow-File-Transfer-AS3": {
+    "Type": "Folder",
+    "ControlmServer": "lnx-srv-rhl-01.vlab.",
+    "OrderMethod": "Manual",
+    "ActiveRetentionPolicy": "CleanEndedOK",
+    "SubApplication": "Filetransfer",
+    "CreatedBy": "emuser",
+    "Application": "Automation-API",
+    "When": {
+      "RuleBasedCalendars": {
+        "Included": [
+          "None"
+        ],
+        "None": {
+          "Type": "Calendar:RuleBased",
+          "When": {
+            "DaysRelation": "OR",
+            "WeekDays": [
+              "NONE"
+            ],
+            "MonthDays": [
+              "NONE"
+            ],
+            "ConfirmationCalendars": {
+              "ShiftBy": "+00",
+              "ExceptionPolicy": "DoNotOrder"
+            }
+          }
+        }
+      }
+    },
+    "Initiate-Workflow": {
+      "Type": "Job:FileTransfer",
+      "ConnectionProfileSrc": "LNX_TO_LCL",
+      "ConnectionProfileDest": "LNX_TO_LCL",
+      "SubApplication": "Filetransfer",
+      "Host": "lnx-srv-rhl-01.vlab.box",
+      "CreatedBy": "emuser",
+      "Description": "Moving file from incoming folder area to work area.",
+      "RunAs": "LNX_TO_LCL+LNX_TO_LCL",
+      "Application": "Automation-API",
+      "Variables": [
+        {
+          "FTP-LOSTYPE": "Unix"
+        },
+        {
+          "FTP-CONNTYPE1": "SFTP"
+        },
+        {
+          "FTP-LHOST": "ctrlm.vlab.box"
+        },
+        {
+          "FTP-LUSER": "csuite"
+        },
+        {
+          "FTP-ROSTYPE": "Unix"
+        },
+        {
+          "FTP-CONNTYPE2": "SFTP"
+        },
+        {
+          "FTP-RHOST": "ctrlm.vlab.box"
+        },
+        {
+          "FTP-RUSER": "csuite"
+        },
+        {
+          "FTP-TIMELIMIT_UNIT1": "1"
+        },
+        {
+          "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+        },
+        {
+          "FTP-WATCH_INTERVAL1": "30"
+        },
+        {
+          "FTP-CM_VER": "9.0.19"
+        }
+      ],
+      "FileTransfers": [
+        {
+          "TransferType": "Binary",
+          "TransferOption": "SrcToDest",
+          "Src": "%%file_abs_path",
+          "Dest": "/var/ftshome/data/%%file_name",
+          "TIMELIMIT": "0",
+          "ABSTIME": "0",
+          "SRCOPT": "0",
+          "IF_EXIST": "0",
+          "DSTOPT": "0",
+          "UNIQUE": "0",
+          "RECURSIVE": "0",
+          "TRIM": "1",
+          "NULLFLDS": "0",
+          "VERNUM": "0",
+          "EXCLUDE_WILDCARD": "0",
+          "CASEIFS": "0"
+        }
+      ],
+      "When": {
+        "WeekDays": [
+          "NONE"
+        ],
+        "MonthDays": [
+          "NONE"
+        ],
+        "SpecificDates": [],
+        "DaysRelation": "OR"
+      },
+      "eventsToAdd": {
+        "Type": "AddEvents",
+        "Events": [
+          {
+            "Event": "Initiate-Workflow-TO-Send-To-AS3"
+          }
+        ]
+      }
+    },
+    "Send-To-AS3": {
+      "Type": "Job:FileTransfer",
+      "ConnectionProfileSrc": "LNX_TO_LCL",
+      "ConnectionProfileDest": "LNX_TO_AS3",
+      "S3BucketName": "bucket-tma",
+      "SubApplication": "Filetransfer",
+      "Host": "lnx-srv-rhl-01.vlab.box",
+      "CreatedBy": "emuser",
+      "Description": "Send arrived file to S3 bucket.",
+      "RunAs": "LNX_TO_LCL+LNX_TO_AS3",
+      "Application": "Automation-API",
+      "Variables": [
+        {
+          "FTP-LOSTYPE": "Unix"
+        },
+        {
+          "FTP-CONNTYPE1": "LOCAL"
+        },
+        {
+          "FTP-LHOST": "Local"
+        },
+        {
+          "FTP-LUSER": "csuite"
+        },
+        {
+          "FTP-ROSTYPE": "Unix"
+        },
+        {
+          "FTP-CONNTYPE2": "S3"
+        },
+        {
+          "FTP-RHOST": "S3"
+        },
+        {
+          "FTP-TIMELIMIT_UNIT1": "1"
+        },
+        {
+          "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+        },
+        {
+          "FTP-WATCH_INTERVAL1": "30"
+        },
+        {
+          "FTP-CM_VER": "9.0.19"
+        }
+      ],
+      "FileTransfers": [
+        {
+          "TransferType": "Binary",
+          "TransferOption": "SrcToDest",
+          "Src": "/var/ftshome/data/%%file_name",
+          "Dest": "/automation-api/%%file_name",
+          "TIMELIMIT": "0",
+          "ABSTIME": "0",
+          "SRCOPT": "0",
+          "IF_EXIST": "0",
+          "DSTOPT": "0",
+          "UNIQUE": "0",
+          "RECURSIVE": "0",
+          "TRIM": "1",
+          "NULLFLDS": "0",
+          "VERNUM": "0",
+          "EXCLUDE_WILDCARD": "0",
+          "CASEIFS": "0"
+        }
+      ],
+      "When": {
+        "WeekDays": [
+          "NONE"
+        ],
+        "MonthDays": [
+          "ALL"
+        ],
+        "SpecificDates": [],
+        "DaysRelation": "OR"
+      },
+      "eventsToWaitFor": {
+        "Type": "WaitForEvents",
+        "Events": [
+          {
+            "Event": "Initiate-Workflow-TO-Send-To-AS3"
+          }
+        ]
+      },
+      "eventsToAdd": {
+        "Type": "AddEvents",
+        "Events": [
+          {
+            "Event": "Send-To-AS3-TO-Process-File-AS3"
+          }
+        ]
+      },
+      "eventsToDelete": {
+        "Type": "DeleteEvents",
+        "Events": [
+          {
+            "Event": "Initiate-Workflow-TO-Send-To-AS3"
+          }
+        ]
+      }
+    },
+    "Process-File-AS3": {
+      "Type": "Job:Command",
+      "SubApplication": "Filetransfer",
+      "Host": "lnx-srv-rhl-01.vlab.box",
+      "CreatedBy": "emuser",
+      "Description": "Process file.",
+      "RunAs": "csuite",
+      "Application": "Automation-API",
+      "Command": "sleep 300",
+      "When": {
+        "WeekDays": [
+          "NONE"
+        ],
+        "MonthDays": [
+          "ALL"
+        ],
+        "SpecificDates": [],
+        "DaysRelation": "OR"
+      },
+      "eventsToWaitFor": {
+        "Type": "WaitForEvents",
+        "Events": [
+          {
+            "Event": "Send-To-AS3-TO-Process-File-AS3"
+          }
+        ]
+      },
+      "eventsToAdd": {
+        "Type": "AddEvents",
+        "Events": [
+          {
+            "Event": "Process-File-AS3-TO-Receive-From-AS3"
+          }
+        ]
+      },
+      "eventsToDelete": {
+        "Type": "DeleteEvents",
+        "Events": [
+          {
+            "Event": "Send-To-AS3-TO-Process-File-AS3"
+          }
+        ]
+      }
+    },
+    "Receive-From-AS3": {
+      "Type": "Job:FileTransfer",
+      "ConnectionProfileSrc": "LNX_TO_AS3",
+      "ConnectionProfileDest": "LNX_TO_LCL",
+      "S3BucketName": "bucket-tma",
+      "SubApplication": "Filetransfer",
+      "Host": "lnx-srv-rhl-01.vlab.box",
+      "CreatedBy": "emuser",
+      "Description": "Receive file from S3 bucket.",
+      "RunAs": "LNX_TO_AS3+LNX_TO_LCL",
+      "Application": "Automation-API",
+      "Variables": [
+        {
+          "FTP-LOSTYPE": "Unix"
+        },
+        {
+          "FTP-CONNTYPE1": "S3"
+        },
+        {
+          "FTP-LHOST": "S3"
+        },
+        {
+          "FTP-ROSTYPE": "Unix"
+        },
+        {
+          "FTP-CONNTYPE2": "LOCAL"
+        },
+        {
+          "FTP-RHOST": "Local"
+        },
+        {
+          "FTP-RUSER": "csuite"
+        },
+        {
+          "FTP-TIMELIMIT_UNIT1": "1"
+        },
+        {
+          "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+        },
+        {
+          "FTP-WATCH_INTERVAL1": "30"
+        },
+        {
+          "FTP-CM_VER": "9.0.19"
+        }
+      ],
+      "FileTransfers": [
+        {
+          "TransferType": "Binary",
+          "TransferOption": "SrcToDest",
+          "Src": "/automation-api/%%file_name",
+          "Dest": "/var/ftshome/archive/%%file_name",
+          "TIMELIMIT": "0",
+          "ABSTIME": "0",
+          "SRCOPT": "0",
+          "IF_EXIST": "0",
+          "DSTOPT": "0",
+          "UNIQUE": "0",
+          "RECURSIVE": "0",
+          "TRIM": "1",
+          "NULLFLDS": "0",
+          "VERNUM": "0",
+          "EXCLUDE_WILDCARD": "0",
+          "CASEIFS": "0"
+        }
+      ],
+      "When": {
+        "WeekDays": [
+          "NONE"
+        ],
+        "MonthDays": [
+          "ALL"
+        ],
+        "SpecificDates": [],
+        "DaysRelation": "OR"
+      },
+      "eventsToWaitFor": {
+        "Type": "WaitForEvents",
+        "Events": [
+          {
+            "Event": "Process-File-AS3-TO-Receive-From-AS3"
+          }
+        ]
+      },
+      "eventsToAdd": {
+        "Type": "AddEvents",
+        "Events": [
+          {
+            "Event": "Receive-From-AS3-TO-Clearing"
+          }
+        ]
+      },
+      "eventsToDelete": {
+        "Type": "DeleteEvents",
+        "Events": [
+          {
+            "Event": "Process-File-AS3-TO-Receive-From-AS3"
+          }
+        ]
+      }
+    },
+    "Clearing": {
+      "Type": "Job:Command",
+      "SubApplication": "Filetransfer",
+      "Confirm": true,
+      "CreatedBy": "emuser",
+      "RunAs": "csuite",
+      "Application": "Automation-API",
+      "Command": "rm %%F1 && rm %%F2",
+      "Variables": [
+        {
+          "F1": "%%file_abs_path"
+        },
+        {
+          "F2": "/var/ftshome/data/%%file_name"
+        }
+      ],
+      "When": {
+        "WeekDays": [
+          "NONE"
+        ],
+        "MonthDays": [
+          "ALL"
+        ],
+        "SpecificDates": [],
+        "DaysRelation": "OR"
+      },
+      "eventsToWaitFor": {
+        "Type": "WaitForEvents",
+        "Events": [
+          {
+            "Event": "Receive-From-AS3-TO-Clearing"
+          }
+        ]
+      },
+      "eventsToDelete": {
+        "Type": "DeleteEvents",
+        "Events": [
+          {
+            "Event": "Receive-From-AS3-TO-Clearing"
+          }
+        ]
+      }
+    }
+  }
+}

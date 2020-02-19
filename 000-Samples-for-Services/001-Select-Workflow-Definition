@@ -1,1 +1,1 @@
-ctm deploy jobs::get JSON -s """ctm=lnx-srv-rhl-01.vlab.&folder=102-Job-Command-Calendar"""
+ctm deploy jobs::get JSON -s """ctm=lnx-srv-rhl-01.vlab.&folder=201-Flow-File-Transfer-AS3"""
