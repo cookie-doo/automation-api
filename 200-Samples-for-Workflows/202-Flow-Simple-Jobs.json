@@ -1,0 +1,42 @@
+{
+    "Defaults" : {
+        "Application" : "Automation-API",
+        "SubApplication" : "Deployment",
+        "RunAs" : "csuite",
+        "Host" : "lnx-srv-rhl-01.vlab.box",
+        "Job": {
+            "When" : {
+                "Months": ["JAN", "OCT", "DEC"],
+                "MonthDays":["22","1","11"],
+                "WeekDays":["MON","TUE", "WED", "THU", "FRI"],
+                "FromTime":"0300",
+                "ToTime":"2100"
+            },
+            "ActionIfFailure" : {
+                "Type": "If",
+                "CompletionStatus": "NOTOK",
+                "mailToTeam": {
+                    "Type": "Mail",
+                    "Message": "%%JOBNAME failed",
+                    "To": "team@mycomp.com"
+                }
+            }
+        }
+    },
+    "202-Flow-Simple-Jobs": {
+        "Type": "Folder",
+        "Comment" : "Code reviewed by Toby",
+        "Command-Job-01": {
+            "Type": "Job:Command",
+            "Command": "echo my 1st job"
+        },
+        "Command-Job-02": {
+            "Type": "Job:Command",
+        	"Command": "echo my 2nd job"
+        },
+        "Flow": {
+            "Type": "Flow",
+            "Sequence": ["Command-Job-01", "Command-Job-02"]
+        }
+    }
+}
