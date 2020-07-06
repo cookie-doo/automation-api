@@ -1,1 +1,1 @@
-ctm deploy jobs::get JSON -s """ctm=ctmserver&folder=TMA_Test"""
+ctm deploy jobs::get JSON -s """ctm=ctmserver&folder=TMA-103-Workflow-for-Quantitative-Resources"""

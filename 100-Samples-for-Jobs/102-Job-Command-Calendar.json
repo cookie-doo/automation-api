@@ -6,12 +6,12 @@
     "OrderMethod": "Manual",
     "Job-Command": {
       "Type": "Job:Command",
-      "SubApplication": "TMA-IDE-Integration",
+      "SubApplication": "TMA_IDE_Integration",
       "Host": "vl-aus-ctm-cdh01.bmc.com",
       "CreatedBy": "tmanzke",
       "Description": "Run simple command.",
       "RunAs": "ctmag",
-      "Application": "Automation-API",
+      "Application": "TMA_Automation-API",
       "Command": "sleep 30",
       "When": {
         "WeekDays": [
