@@ -1,0 +1,1 @@
+ctm run job:status::get "ctmserver:02zq1"

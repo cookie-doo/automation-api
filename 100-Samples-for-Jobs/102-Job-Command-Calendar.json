@@ -1,15 +1,16 @@
 {
-  "102-Job-Command-Calendar": {
+  "TMA-102-Job-Command-Calendar": {
     "Type": "SimpleFolder",
-    "ControlmServer": "lnx-srv-rhl-01.vlab.",
+    "ControlmServer": "ctmserver",
+    "SiteStandard": "TMA_Standard_Default",
     "OrderMethod": "Manual",
     "Job-Command": {
       "Type": "Job:Command",
-      "SubApplication": "Deployment",
-      "Host": "lnx-srv-rhl-01.vlab.box",
-      "CreatedBy": "emuser",
+      "SubApplication": "TMA-IDE-Integration",
+      "Host": "vl-aus-ctm-cdh01.bmc.com",
+      "CreatedBy": "tmanzke",
       "Description": "Run simple command.",
-      "RunAs": "csuite",
+      "RunAs": "ctmag",
       "Application": "Automation-API",
       "Command": "sleep 30",
       "When": {
