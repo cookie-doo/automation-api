@@ -26,20 +26,20 @@
             }
         }
     },
-    "TMA_202_Workflow_for_Promotion": {
+    "TMA_202_Workflow_for_Promotion_Test": {
         "Type": "Folder",
         "Comment" : "Code reviewed by Toby",
-        "Job_Sleep_01": {
+        "Test_Job_Sleep_01": {
             "Type": "Job:Command",
             "Command": "sleep 20"
         },
-        "Job_Sleep_02": {
+        "Test_Job_Sleep_02": {
             "Type": "Job:Command",
         	"Command": "sleep 20"
         },
         "Flow": {
             "Type": "Flow",
-            "Sequence": ["Job_Sleep_01", "Job_Sleep_02"]
+            "Sequence": ["Test_Job_Sleep_01", "Test_Job_Sleep_02"]
         }
     }
 }
