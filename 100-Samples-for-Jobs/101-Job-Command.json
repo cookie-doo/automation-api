@@ -12,7 +12,7 @@
       "Description": "Run simple command.",
       "RunAs": "ctmag",
       "Application": "TMA_Automation_API",
-      "Command": "sleep 30",
+      "Command": "sleep 10",
       "When": {
         "WeekDays": [
           "NONE"
