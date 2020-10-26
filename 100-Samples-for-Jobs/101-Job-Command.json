@@ -11,7 +11,7 @@
       "CreatedBy": "emuser",
       "Description": "Run simple command.",
       "RunAs": "ctmag",
-      "Application": "TMA_Automation_API",
+      "Application": "Automation_API",
       "Command": "sleep 10",
       "When": {
         "WeekDays": [
