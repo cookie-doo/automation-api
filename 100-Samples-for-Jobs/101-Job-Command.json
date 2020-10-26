@@ -2,7 +2,7 @@
   "TMA_101_Job_Command": {
     "Type": "SimpleFolder",
     "ControlmServer": "ctmserver",
-    "SiteStandard": "TMA_Standard_Default",
+    "SiteStandard": "TMA_Standard",
     "OrderMethod": "Manual",
     "Job-Command": {
       "Type": "Job:Command",

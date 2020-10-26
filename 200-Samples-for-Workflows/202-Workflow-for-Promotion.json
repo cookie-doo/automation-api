@@ -1,7 +1,7 @@
 {
     "Defaults" : {
         "Application" : "TMA_Automation_API",
-        "SiteStandard": "TMA_Standard_Default",
+        "SiteStandard": "TMA_Standard",
         "SubApplication": "TMA_IDE_Integration",
         "ControlmServer": "ctmserver",
       	"Host": "vl-aus-ctm-cdh01.bmc.com",
